@@ -2,13 +2,11 @@
 FROM --platform=amd64 bitnami/minideb:bookworm
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update
-RUN apt-get -y install apt-utils gcc \
-	python3 vim unzip \
+RUN apt-get -y install unzip \
 	fakeroot dbus base whiptail hexedit \
-	patch wamerican ucf manpages \
-	file luajit make lua50 dialog curl \
-	less cowsay netcat-openbsd \
-    wget procps
+	patchucf manpages \
+	file dialog curl \
+	less wget procps
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
