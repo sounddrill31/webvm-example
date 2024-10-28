@@ -1,8 +1,7 @@
 # Based on https://github.com/wnameless/docker-oracle-xe-11g/blob/master/Dockerfile
 FROM --platform=amd64 bitnami/minideb:buster-amd64
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get clean && apt-get update
-RUN apt-get -y install apt-utils \
+RUN install_packages apt-utils \
 	python3 vim unzip \
 	fakeroot dbus base whiptail hexedit \
 	patch ucf manpages \
