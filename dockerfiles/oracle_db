@@ -1,5 +1,5 @@
 # Based on https://github.com/wnameless/docker-oracle-xe-11g/blob/master/Dockerfile
-FROM --platform=i386 i386/debian:buster
+FROM --platform=amd64 amd64/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update && apt-get -y upgrade
 RUN apt-get -y install apt-utils gcc \
