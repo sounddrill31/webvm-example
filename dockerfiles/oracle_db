@@ -21,7 +21,7 @@ RUN echo 'root:password' | chpasswd
 
 RUN mkdir assets
 RUN wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads/master.zip -O repo.zip 
-RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-main/assets/*' 
+RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' 
 RUN rm repo.zip
 COPY assets /assets
 RUN /assets/setup.sh
