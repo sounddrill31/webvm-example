@@ -23,7 +23,7 @@ RUN mkdir -p assets
 RUN wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads/master.zip -O repo.zip 
 RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' 
 RUN rm repo.zip
-RUN ./assets/setup.sh
+RUN ./assets/docker-oracle-xe-11g-master/assets/setup.sh
 
 EXPOSE 22
 EXPOSE 1521
