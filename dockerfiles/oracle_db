@@ -1,5 +1,5 @@
 # Based on https://github.com/wnameless/docker-oracle-xe-11g/blob/master/Dockerfile
-FROM --platform=amd64 bitnami/minideb:buster-amd64
+FROM --platform=amd64 bitnami/minideb:bookworm
 ARG DEBIAN_FRONTEND=noninteractive
 RUN install_packages apt-utils \
 	python3 vim unzip \
