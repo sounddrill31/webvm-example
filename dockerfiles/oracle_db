@@ -1,2 +1,2 @@
-FROM: oracleinanutshell/oracle-xe-11g
-RUN: echo "Now run your sql stuff"
+FROM oracleinanutshell/oracle-xe-11g
+RUN echo "Now run your sql stuff"
