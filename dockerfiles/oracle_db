@@ -22,6 +22,7 @@ RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*'
 RUN rm repo.zip
 RUN mv ./assets/docker-oracle-xe-11g-master/assets/* /assets
 RUN rm -rf ./assets
+RUN sed -i 's/ln -s /usr/bin/awk /ln -sf /usr/bin/awk /' /assets/setup.sh
 RUN /assets/setup.sh
 
 EXPOSE 22
