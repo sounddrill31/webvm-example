@@ -19,11 +19,10 @@ ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LA
 RUN echo 'root:password' | chpasswd
 #CMD [ "/bin/bash" ]
 
-RUN mkdir assets
+RUN mkdir -p assets
 RUN wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads/master.zip -O repo.zip 
 RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' 
 RUN rm repo.zip
-COPY assets /assets
 RUN /assets/setup.sh
 
 EXPOSE 22
