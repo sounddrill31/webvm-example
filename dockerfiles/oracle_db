@@ -1,13 +1,13 @@
 # Based on https://github.com/wnameless/docker-oracle-xe-11g/blob/master/Dockerfile
 FROM --platform=amd64 amd64/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get clean && apt-get update && apt-get -y upgrade
-RUN apt-get -y install apt-utils gcc \
+RUN apt-get clean && apt-get update
+RUN apt-get -y install apt-utils \
 	python3 vim unzip \
 	fakeroot dbus base whiptail hexedit \
-	patch wamerican ucf manpages \
-	file luajit make lua50 dialog curl \
-	less cowsay netcat-openbsd \
+	patch ucf manpages \
+	file luajit lua50 dialog curl \
+	less netcat-openbsd \
         wget procps
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
@@ -24,6 +24,7 @@ RUN wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads
 RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' 
 RUN rm repo.zip
 RUN mv ./assets/docker-oracle-xe-11g-master/assets/* /assets
+RUN rm -rf ./assets
 RUN /assets/setup.sh
 
 EXPOSE 22
