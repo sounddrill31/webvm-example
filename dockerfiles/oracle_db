@@ -1,32 +1,37 @@
 # Based on https://github.com/wnameless/docker-oracle-xe-11g/blob/master/Dockerfile
 FROM --platform=amd64 bitnami/minideb:bookworm
+
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get clean && apt-get update
-RUN apt-get -y install unzip \
+
+RUN apt-get clean && apt-get update \ 
+&& apt-get -y install unzip \
 	fakeroot dbus base whiptail hexedit manpages \
 	file dialog curl \
-	less wget procps
-RUN useradd -m user && echo "user:password" | chpasswd
-COPY --chown=user:user ./examples /home/user/examples
-RUN chmod -R +x  /home/user/examples/lua
+	less wget procps \
+&& useradd -m user && echo "user:password" | chpasswd \
+&& chmod -R +x  /home/user/examples/lua \
+
+# Oracle stuff
+&& mkdir -p /assets \
+&& wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads/master.zip -O repo.zip \
+&& unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' \
+&& rm repo.zip \
+&& mv ./assets/docker-oracle-xe-11g-master/assets/* /assets \
+&& rm -rf ./assets \
+&& sed -i 's|ln -s /usr/bin/awk |ln -sf /usr/bin/awk |' /assets/setup.sh \
+&& /assets/setup.sh
+
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-RUN echo 'root:password' | chpasswd
-#CMD [ "/bin/bash" ]
-
-RUN mkdir -p /assets
-RUN wget -q https://github.com/wnameless/docker-oracle-xe-11g/archive/refs/heads/master.zip -O repo.zip 
-RUN unzip -d ./assets repo.zip 'docker-oracle-xe-11g-master/assets/*' 
-RUN rm repo.zip
-RUN mv ./assets/docker-oracle-xe-11g-master/assets/* /assets
-RUN rm -rf ./assets
-RUN sed -i 's|ln -s /usr/bin/awk |ln -sf /usr/bin/awk |' /assets/setup.sh
-RUN /assets/setup.sh
+&& echo 'root:password' | chpasswd
+COPY --chown=user:user ./examples /home/user/examples
 
 EXPOSE 22
 EXPOSE 1521
 EXPOSE 8080
+
+#CMD [ "/bin/bash" ]
 
 CMD /usr/sbin/startup.sh && tail -f /dev/null
