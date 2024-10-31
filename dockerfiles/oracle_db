@@ -25,7 +25,7 @@ RUN apt-get clean && apt-get update \
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-&& echo 'root:password' | chpasswd
+RUN echo 'root:password' | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
 
 EXPOSE 22
