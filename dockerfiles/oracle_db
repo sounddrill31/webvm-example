@@ -8,7 +8,13 @@ RUN apt-get clean && apt-get update \
 	fakeroot dbus base whiptail hexedit manpages \
 	file dialog curl \
 	less wget procps \
-&& useradd -m user && echo "user:password" | chpasswd \
+&& useradd -m user && echo "user:password" | chpasswd
+
+# We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
+WORKDIR /home/user/
+# We set env, as this gets extracted by Webvm. This is optional.
+ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
+RUN echo 'root:password' | chpasswd \
 # Oracle stuff \
 && rm -rf /assets || true \
 && mkdir -p /assets \
@@ -20,12 +26,6 @@ RUN apt-get clean && apt-get update \
 && ls /assets \
 && sed -i 's|ln -s /usr/bin/awk |ln -sf /usr/bin/awk |' /assets/setup.sh \
 && /assets/setup.sh
-
-# We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
-WORKDIR /home/user/
-# We set env, as this gets extracted by Webvm. This is optional.
-ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-RUN echo 'root:password' | chpasswd
 
 EXPOSE 22
 EXPOSE 1521
